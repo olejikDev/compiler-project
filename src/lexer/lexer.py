@@ -72,33 +72,20 @@ class Lexer:
         return self.tokens
 
     def add_eof_token(self):
-        """Добавляет EOF в правильной позиции"""
-        if self.tokens and self.tokens[-1].type != TokenType.END_OF_FILE:
-            last_token = self.tokens[-1]
-
-            # Проверяем, что находится после последнего токена
-            remaining = self.source[self.current:]
-
-            # Если после токена есть пробелы или символы
-            if remaining.strip():
-                # Есть непробельные символы - EOF после токена
-                self.line = last_token.line
-                self.column = last_token.column + len(last_token.lexeme)
-            elif remaining and remaining[0] == ' ':
-                # Только пробелы - EOF после пробелов
-                spaces = len(remaining) - len(remaining.lstrip(' '))
-                self.line = last_token.line
-                self.column = last_token.column + len(last_token.lexeme) + spaces
-            elif remaining and remaining[0] == '\n':
-                # Перевод строки - EOF на следующей строке
-                self.line = last_token.line + 1
-                self.column = 1
-            else:
-                # Ничего нет - EOF на следующей строке
-                self.line = last_token.line + 1
-                self.column = 1
-
+        """Добавляет EOF"""
         if not self.tokens or self.tokens[-1].type != TokenType.END_OF_FILE:
+            if self.tokens:
+                last_token = self.tokens[-1]
+                # Если последний токен - из-за ошибки в строке
+                if last_token.type == TokenType.END_OF_FILE:
+                    pass
+                else:
+                    self.line = last_token.line
+                    self.column = last_token.column + len(last_token.lexeme)
+            else:
+                self.line = 1
+                self.column = 1
+
             self.tokens.append(Token(TokenType.END_OF_FILE, "", self.line, self.column))
 
     def is_at_end(self):
@@ -178,6 +165,9 @@ class Lexer:
                 self.column = 1
             self.advance()
         if self.is_at_end():
+            # Сохраняем позицию для EOF (кавычка на позиции start_col)
+            self.eof_line = self.start_line
+            self.eof_column = self.start_col + 1  # EOF после кавычки
             raise LexerError("Unterminated string literal", self.start_line, self.start_col)
         self.advance()
         value = self.source[self.start + 1: self.current - 1]
