@@ -1,0 +1,10 @@
+Program [line 1]:
+  FunctionDecl: main() -> int [line 1]
+    Body:
+      Block [line 1]:
+        VarDecl: int x = 10 [line 2]
+        IfStmt [line 3]:
+          Condition: (x > 0)
+          Then: Block [line 3]:
+            Return: 1 [line 4]
+        Return: 0 [line 6]

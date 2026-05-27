@@ -1,0 +1,6 @@
+fn test1() {}
+fn test2(int a) {}
+fn test3(int a, float b) {}
+fn test4(int a, float b, bool c) -> bool {
+    return c;
+}

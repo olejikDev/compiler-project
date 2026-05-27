@@ -1,0 +1,21 @@
+struct Point {
+    int x;
+    int y;
+}
+
+struct Rectangle {
+    Point top_left;
+    Point bottom_right;
+    int area;
+}
+
+fn main() -> int {
+    Point p;
+    p.x = 10;
+    p.y = 20;
+
+    Rectangle r;
+    r.top_left = p;
+    r.area = 200;
+    return 0;
+}

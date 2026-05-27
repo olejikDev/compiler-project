@@ -1,0 +1,12 @@
+Program [line 1]:
+  FunctionDecl: main() -> int [line 1]
+    Body:
+      Block [line 1]:
+        VarDecl: int sum = 0 [line 2]
+        ForStmt [line 3]:
+          Init: VarDecl: int i = 0 [line 3]
+          Condition: (i < 10)
+          Update: (i = (i + 1))
+          Body: Block [line 3]:
+            ExprStmt: (sum = (sum + i)) [line 4]
+        Return: sum [line 6]

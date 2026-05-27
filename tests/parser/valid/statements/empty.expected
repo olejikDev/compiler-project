@@ -1,0 +1,7 @@
+Program [line 1]:
+  FunctionDecl: main() -> void [line 1]
+    Body:
+      Block [line 1]:
+        Block [line 2]:
+          Block [line 3]:
+        ; [line 6]

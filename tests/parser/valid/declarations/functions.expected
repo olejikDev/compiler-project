@@ -1,0 +1,13 @@
+Program [line 1]:
+  FunctionDecl: add(a: int, b: int) -> int [line 1]
+    Body:
+      Block [line 1]:
+        Return: (a + b) [line 2]
+  FunctionDecl: mul(a: int, b: int) -> int [line 5]
+    Body:
+      Block [line 5]:
+        Return: (a * b) [line 6]
+  FunctionDecl: main() -> void [line 9]
+    Body:
+      Block [line 9]:
+        VarDecl: int x = add(5, mul(3, 2)) [line 10]

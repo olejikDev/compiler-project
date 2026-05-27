@@ -1,0 +1,11 @@
+fn void_func() -> void {
+    return;
+}
+
+fn int_func() -> int {
+    return 42;
+}
+
+fn no_return() {
+    int x = 5;
+}

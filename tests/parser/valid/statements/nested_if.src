@@ -1,0 +1,10 @@
+fn main(int a, int b) -> int {
+    if (a > 0) {
+        if (b > 0) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+    return 0;
+}

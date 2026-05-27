@@ -1,0 +1,14 @@
+Program [line 1]:
+  FunctionDecl: test1() -> void [line 1]
+    Body:
+      Block [line 1]:
+  FunctionDecl: test2(a: int) -> void [line 2]
+    Body:
+      Block [line 2]:
+  FunctionDecl: test3(a: int, b: float) -> void [line 3]
+    Body:
+      Block [line 3]:
+  FunctionDecl: test4(a: int, b: float, c: bool) -> bool [line 4]
+    Body:
+      Block [line 4]:
+        Return: c [line 5]

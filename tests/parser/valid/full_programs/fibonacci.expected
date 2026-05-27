@@ -1,0 +1,13 @@
+Program [line 1]:
+  FunctionDecl: fib(n: int) -> int [line 1]
+    Body:
+      Block [line 1]:
+        IfStmt [line 2]:
+          Condition: (n < 2)
+          Then: Block [line 2]:
+            Return: n [line 3]
+        Return: (fib((n - 1)) + fib((n - 2))) [line 5]
+  FunctionDecl: main() -> int [line 8]
+    Body:
+      Block [line 8]:
+        Return: fib(10) [line 9]

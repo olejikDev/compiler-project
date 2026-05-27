@@ -1,0 +1,11 @@
+Program [line 1]:
+  FunctionDecl: main() -> bool [line 1]
+    Body:
+      Block [line 1]:
+        VarDecl: bool a = (True && False) [line 2]
+        VarDecl: bool b = (True || False) [line 3]
+        VarDecl: bool c = ((True && False) || True) [line 4]
+        VarDecl: bool d = (True && (False || True)) [line 5]
+        VarDecl: bool e = (!True) [line 6]
+        VarDecl: bool f = (!(!False)) [line 7]
+        Return: ((a && b) || (((c && d) && e) && f)) [line 8]

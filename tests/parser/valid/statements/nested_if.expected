@@ -1,0 +1,14 @@
+Program [line 1]:
+  FunctionDecl: main(a: int, b: int) -> int [line 1]
+    Body:
+      Block [line 1]:
+        IfStmt [line 2]:
+          Condition: (a > 0)
+          Then: Block [line 2]:
+            IfStmt [line 3]:
+              Condition: (b > 0)
+              Then: Block [line 3]:
+                Return: 1 [line 4]
+              Else: Block [line 5]:
+                Return: 2 [line 6]
+        Return: 0 [line 9]

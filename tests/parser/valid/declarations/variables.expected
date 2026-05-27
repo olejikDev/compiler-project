@@ -1,0 +1,11 @@
+Program [line 1]:
+  VarDecl: int global = 100 [line 1]
+  VarDecl: float pi = 3.14159 [line 2]
+  VarDecl: bool flag = True [line 3]
+  FunctionDecl: main() -> int [line 5]
+    Body:
+      Block [line 5]:
+        VarDecl: int local = 5 [line 6]
+        VarDecl: float result = (pi * local) [line 7]
+        VarDecl: bool check = (flag && (result > 10)) [line 8]
+        Return: (local + global) [line 9]

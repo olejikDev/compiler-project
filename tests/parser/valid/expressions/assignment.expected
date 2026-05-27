@@ -1,0 +1,10 @@
+Program [line 1]:
+  FunctionDecl: main() -> int [line 1]
+    Body:
+      Block [line 1]:
+        VarDecl: int x = 5 [line 2]
+        ExprStmt: (x += 2) [line 3]
+        ExprStmt: (x -= 1) [line 4]
+        ExprStmt: (x *= 3) [line 5]
+        ExprStmt: (x /= 2) [line 6]
+        Return: x [line 7]

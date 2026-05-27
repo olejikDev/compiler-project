@@ -1,0 +1,11 @@
+Program [line 1]:
+  FunctionDecl: main() -> bool [line 1]
+    Body:
+      Block [line 1]:
+        VarDecl: bool a = (5 < 10) [line 2]
+        VarDecl: bool b = (5 <= 5) [line 3]
+        VarDecl: bool c = (10 > 5) [line 4]
+        VarDecl: bool d = (10 >= 10) [line 5]
+        VarDecl: bool e = (5 == 5) [line 6]
+        VarDecl: bool f = (5 != 10) [line 7]
+        Return: (((((a && b) && c) && d) && e) && f) [line 8]

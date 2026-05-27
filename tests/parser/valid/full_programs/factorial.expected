@@ -1,0 +1,14 @@
+Program [line 1]:
+  FunctionDecl: factorial(n: int) -> int [line 1]
+    Body:
+      Block [line 1]:
+        IfStmt [line 2]:
+          Condition: (n <= 1)
+          Then: Block [line 2]:
+            Return: 1 [line 3]
+        Return: (n * factorial((n - 1))) [line 5]
+  FunctionDecl: main() -> int [line 8]
+    Body:
+      Block [line 8]:
+        VarDecl: int result = factorial(5) [line 9]
+        Return: result [line 10]

@@ -1,0 +1,10 @@
+int global = 100;
+float pi = 3.14159;
+bool flag = true;
+
+fn main() -> int {
+    int local = 5;
+    float result = pi * local;
+    bool check = flag && (result > 10);
+    return local + global;
+}

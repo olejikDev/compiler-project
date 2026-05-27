@@ -1,0 +1,22 @@
+Program [line 1]:
+  FunctionDecl: is_prime(n: int) -> bool [line 1]
+    Body:
+      Block [line 1]:
+        IfStmt [line 2]:
+          Condition: (n < 2)
+          Then: Block [line 2]:
+            Return: False [line 3]
+        VarDecl: int i = 2 [line 5]
+        WhileStmt [line 6]:
+          Condition: ((i * i) <= n)
+          Body: Block [line 6]:
+            IfStmt [line 7]:
+              Condition: ((n % i) == 0)
+              Then: Block [line 7]:
+                Return: False [line 8]
+            ExprStmt: (i = (i + 1)) [line 10]
+        Return: True [line 12]
+  FunctionDecl: main() -> bool [line 15]
+    Body:
+      Block [line 15]:
+        Return: is_prime(17) [line 16]

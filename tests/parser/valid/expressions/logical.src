@@ -1,0 +1,9 @@
+fn main() -> bool {
+    bool a = true && false;
+    bool b = true || false;
+    bool c = true && false || true;
+    bool d = true && (false || true);
+    bool e = !true;
+    bool f = !!false;
+    return a && b || c && d && e && f;
+}

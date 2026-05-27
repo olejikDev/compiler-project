@@ -1,0 +1,9 @@
+Program [line 1]:
+  FunctionDecl: main() -> int [line 1]
+    Body:
+      Block [line 1]:
+        VarDecl: int a = (1 + (2 * 3)) [line 2]
+        VarDecl: int b = ((1 + 2) * 3) [line 3]
+        VarDecl: int c = ((10 / 2) - 3) [line 4]
+        VarDecl: int d = ((10 - 5) + 2) [line 5]
+        Return: (((a + b) - c) + d) [line 6]

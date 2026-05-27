@@ -1,0 +1,20 @@
+Program [line 1]:
+  StructDecl: Point [line 1]
+    Fields:
+    VarDecl: int x [line 2]
+    VarDecl: int y [line 3]
+  StructDecl: Rectangle [line 6]
+    Fields:
+    VarDecl: Point top_left [line 7]
+    VarDecl: Point bottom_right [line 8]
+    VarDecl: int area [line 9]
+  FunctionDecl: main() -> int [line 12]
+    Body:
+      Block [line 12]:
+        VarDecl: Point p [line 13]
+        ExprStmt: (p.x = 10) [line 14]
+        ExprStmt: (p.y = 20) [line 15]
+        VarDecl: Rectangle r [line 17]
+        ExprStmt: (r.top_left = p) [line 18]
+        ExprStmt: (r.area = 200) [line 19]
+        Return: 0 [line 20]

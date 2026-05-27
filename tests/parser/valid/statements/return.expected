@@ -1,0 +1,13 @@
+Program [line 1]:
+  FunctionDecl: void_func() -> void [line 1]
+    Body:
+      Block [line 1]:
+        Return: void [line 2]
+  FunctionDecl: int_func() -> int [line 5]
+    Body:
+      Block [line 5]:
+        Return: 42 [line 6]
+  FunctionDecl: no_return() -> void [line 9]
+    Body:
+      Block [line 9]:
+        VarDecl: int x = 5 [line 10]

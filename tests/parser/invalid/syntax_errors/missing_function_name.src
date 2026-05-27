@@ -1,0 +1,3 @@
+fn () -> int {
+    return 5;
+}

@@ -6,4 +6,4 @@ python -m src.main lex --input examples/hello.src
 
 python -m pytest tests/
 
-python tests/test_runner/run_tests.py
+python tests/test_runner/run_tests.py 

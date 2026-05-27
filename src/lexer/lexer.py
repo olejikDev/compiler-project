@@ -1,3 +1,4 @@
+# src/lexer/lexer.py
 from .token import Token, TokenType
 from src.utils.error import LexerError
 
@@ -72,11 +73,9 @@ class Lexer:
         return self.tokens
 
     def add_eof_token(self):
-        """Добавляет EOF"""
         if not self.tokens or self.tokens[-1].type != TokenType.END_OF_FILE:
             if self.tokens:
                 last_token = self.tokens[-1]
-                # Если последний токен - из-за ошибки в строке
                 if last_token.type == TokenType.END_OF_FILE:
                     pass
                 else:
@@ -102,7 +101,10 @@ class Lexer:
                     self.line += 1
                     self.column = 1
                 case '/':
-                    self.handle_slash()
+                    if self.match('='):
+                        self.add_token(TokenType.SLASH_EQUALS)
+                    else:
+                        self.add_token(TokenType.SLASH)
                 case '"':
                     self.string()
                 case _ if char.isdigit():
@@ -143,9 +145,12 @@ class Lexer:
 
     def handle_slash(self):
         if self.match('/'):
+            # Однострочный комментарий - пропускаем до конца строки
             while self.peek() != '\n' and not self.is_at_end():
                 self.advance()
+            # Не добавляем токен!
         elif self.match('*'):
+            # Многострочный комментарий
             while not (self.peek() == '*' and self.peek_next() == '/') and not self.is_at_end():
                 if self.peek() == '\n':
                     self.line += 1
@@ -155,6 +160,7 @@ class Lexer:
                 raise LexerError("Unterminated multi-line comment", self.start_line, self.start_col)
             self.advance()
             self.advance()
+            # Не добавляем токен!
         else:
             self.add_token(TokenType.SLASH)
 
@@ -165,9 +171,6 @@ class Lexer:
                 self.column = 1
             self.advance()
         if self.is_at_end():
-            # Сохраняем позицию для EOF (кавычка на позиции start_col)
-            self.eof_line = self.start_line
-            self.eof_column = self.start_col + 1  # EOF после кавычки
             raise LexerError("Unterminated string literal", self.start_line, self.start_col)
         self.advance()
         value = self.source[self.start + 1: self.current - 1]
@@ -207,11 +210,22 @@ class Lexer:
     def operator_or_delimiter(self, char):
         match char:
             case '+':
-                self.add_token(TokenType.PLUS)
+                if self.match('='):
+                    self.add_token(TokenType.PLUS_EQUALS)
+                else:
+                    self.add_token(TokenType.PLUS)
             case '-':
-                self.add_token(TokenType.MINUS)
+                if self.match('='):
+                    self.add_token(TokenType.MINUS_EQUALS)
+                elif self.match('>'):
+                    self.add_token(TokenType.ARROW)
+                else:
+                    self.add_token(TokenType.MINUS)
             case '*':
-                self.add_token(TokenType.STAR)
+                if self.match('='):
+                    self.add_token(TokenType.STAR_EQUALS)
+                else:
+                    self.add_token(TokenType.STAR)
             case '%':
                 self.add_token(TokenType.PERCENT)
             case '!':

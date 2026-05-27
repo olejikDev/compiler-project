@@ -1,3 +1,4 @@
+# src/lexer/token.py
 from enum import Enum
 from dataclasses import dataclass
 
@@ -28,6 +29,10 @@ class TokenType(Enum):
     STAR = 'STAR'
     SLASH = 'SLASH'
     PERCENT = 'PERCENT'
+    PLUS_EQUALS = 'PLUS_EQUALS'
+    MINUS_EQUALS = 'MINUS_EQUALS'
+    STAR_EQUALS = 'STAR_EQUALS'
+    SLASH_EQUALS = 'SLASH_EQUALS'
     EQ_EQ = 'EQ_EQ'
     BANG_EQ = 'BANG_EQ'
     LESS = 'LESS'
@@ -38,6 +43,7 @@ class TokenType(Enum):
     OR = 'OR'
     BANG = 'BANG'
     ASSIGN = 'ASSIGN'
+    ARROW = 'ARROW'  # '->'
 
     # Delimiters
     LPAREN = 'LPAREN'
