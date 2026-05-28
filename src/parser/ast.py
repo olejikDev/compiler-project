@@ -180,3 +180,11 @@ class VarDeclWrapper(DeclarationNode):
     var_decl: VarDeclStmtNode
     line: int
     column: int
+
+
+@dataclass
+class StmtWrapper(DeclarationNode):
+    """Wrapper for statements at global level (assignments, expressions, etc.)"""
+    statement: StatementNode
+    line: int
+    column: int

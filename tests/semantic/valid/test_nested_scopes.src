@@ -1,0 +1,13 @@
+int x = 10;
+
+fn test() -> int {
+    int x = 20;
+    {
+        int x = 30;
+        return x;
+    }
+}
+
+fn main() -> int {
+    return test() + x;
+}

@@ -34,7 +34,7 @@ class Parser:
     # ============ Declarations ============
 
     def parse_declaration(self) -> DeclarationNode:
-        """Declaration ::= FunctionDecl | StructDecl | VarDecl"""
+        """Declaration ::= FunctionDecl | StructDecl | VarDecl | Statement"""
         if self.check(TokenType.KW_FN):
             return self.parse_function_decl()
         elif self.check(TokenType.KW_STRUCT):
@@ -47,10 +47,14 @@ class Parser:
                 column=stmt.column
             )
         else:
-            token = self.peek()
-            raise ParserError(f"Expected 'fn', 'struct', or type, got {token.type.value}",
-                              token.line, token.column)
-
+            # Parse as statement and wrap it
+            stmt = self.parse_statement()
+            from src.parser.ast import StmtWrapper
+            return StmtWrapper(
+                statement=stmt,
+                line=stmt.line,
+                column=stmt.column
+            )
     def parse_function_decl(self) -> FunctionDeclNode:
         """FunctionDecl ::= 'fn' Identifier '(' [ Parameters ] ')' ['->' Type] Block"""
         fn_token = self.consume(TokenType.KW_FN, "Expected 'fn'")

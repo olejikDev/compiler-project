@@ -1,0 +1,11 @@
+int age = 25;
+float price = 99.99;
+bool is_active = true;
+string name = "John";
+
+fn main() -> int {
+    int x = 10;
+    float y = 20.5;
+    bool z = true;
+    return 0;
+}

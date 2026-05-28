@@ -1,0 +1,9 @@
+fn main() -> int {
+    int a = 5 + 3;
+    int b = 10 - 4;
+    int c = 3 * 4;
+    int d = 15 / 3;
+    bool e = a < b;
+    bool f = e && (a == 5);
+    return a;
+}

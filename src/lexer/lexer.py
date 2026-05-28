@@ -59,7 +59,40 @@ class Lexer:
     def get_column(self):
         return self.column
 
+    def scan_token(self):
+        char = self.advance()
+
+        try:
+            match char:
+                case ' ' | '\t' | '\r':
+                    pass
+                case '\n':
+                    self.line += 1
+                    self.column = 1
+                case '/':
+                    self.handle_slash()
+                case '"':
+                    self.string()
+                case _ if char.isdigit():
+                    self.number()
+                case _ if char.isalpha() or char == '_':
+                    self.identifier()
+                case _:
+                    self.operator_or_delimiter(char)
+        except LexerError as e:
+            print(e)
+
+        while not self.is_at_end():
+            self.start = self.current
+            self.start_line = self.line
+            self.start_col = self.column
+            self.scan_token()
+
+        self.add_eof_token()
+        return self.tokens
+
     def scan_tokens(self):
+        """Get all tokens - alias for backward compatibility"""
         self.token_index = 0
         self.tokens = []
 
@@ -101,10 +134,7 @@ class Lexer:
                     self.line += 1
                     self.column = 1
                 case '/':
-                    if self.match('='):
-                        self.add_token(TokenType.SLASH_EQUALS)
-                    else:
-                        self.add_token(TokenType.SLASH)
+                    self.handle_slash()  # ← ДОЛЖНО БЫТЬ ИМЕННО ТАК
                 case '"':
                     self.string()
                 case _ if char.isdigit():
@@ -148,7 +178,7 @@ class Lexer:
             # Однострочный комментарий - пропускаем до конца строки
             while self.peek() != '\n' and not self.is_at_end():
                 self.advance()
-            # Не добавляем токен!
+            # Не добавляем токен
         elif self.match('*'):
             # Многострочный комментарий
             while not (self.peek() == '*' and self.peek_next() == '/') and not self.is_at_end():
@@ -158,9 +188,9 @@ class Lexer:
                 self.advance()
             if self.is_at_end():
                 raise LexerError("Unterminated multi-line comment", self.start_line, self.start_col)
-            self.advance()
-            self.advance()
-            # Не добавляем токен!
+            self.advance()  # пропускаем '*'
+            self.advance()  # пропускаем '/'
+            # Не добавляем токен
         else:
             self.add_token(TokenType.SLASH)
 
@@ -282,3 +312,7 @@ class Lexer:
     def add_token(self, token_type, literal=None):
         lexeme = self.source[self.start:self.current]
         self.tokens.append(Token(token_type, lexeme, self.start_line, self.start_col, literal))
+
+    def tokenize(self):
+        """Alias for scan_tokens for compatibility with tests"""
+        return self.scan_tokens()
