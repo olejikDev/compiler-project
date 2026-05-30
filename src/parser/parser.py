@@ -302,15 +302,14 @@ class Parser:
         return self.parse_assignment()
 
     def parse_assignment(self) -> ExpressionNode:
+        """Parse assignment: =, +=, -=, *=, /="""
         expr = self.parse_logical_or()
 
-        if self.check(TokenType.ASSIGN, TokenType.PLUS_EQUALS,
-                      TokenType.MINUS_EQUALS, TokenType.STAR_EQUALS,
-                      TokenType.SLASH_EQUALS):
+        # Regular assignment
+        if self.check(TokenType.ASSIGN):
             operator = self.advance().lexeme
             value = self.parse_assignment()
 
-            # Разрешаем присваивание идентификатору или доступу к полю (a.b)
             if not isinstance(expr, (IdentifierExprNode, BinaryExprNode)):
                 raise ParserError(f"Invalid assignment target: {expr.__class__.__name__}",
                                   expr.line, expr.column)
@@ -322,9 +321,104 @@ class Parser:
                 line=expr.line,
                 column=expr.column
             )
+        # Compound assignment: +=
+        elif self.check(TokenType.PLUS_EQUALS):
+            self.advance()  # consume '+='
+            value = self.parse_assignment()
+
+            if not isinstance(expr, (IdentifierExprNode, BinaryExprNode)):
+                raise ParserError(f"Invalid assignment target: {expr.__class__.__name__}",
+                                  expr.line, expr.column)
+
+            # Transform x += y into x = x + y
+            binary_op = BinaryExprNode(
+                left=expr,
+                operator='+',
+                right=value,
+                line=expr.line,
+                column=expr.column
+            )
+            expr = AssignmentExprNode(
+                target=expr,
+                operator='=',
+                value=binary_op,
+                line=expr.line,
+                column=expr.column
+            )
+        # Compound assignment: -=
+        elif self.check(TokenType.MINUS_EQUALS):
+            self.advance()  # consume '-='
+            value = self.parse_assignment()
+
+            if not isinstance(expr, (IdentifierExprNode, BinaryExprNode)):
+                raise ParserError(f"Invalid assignment target: {expr.__class__.__name__}",
+                                  expr.line, expr.column)
+
+            # Transform x -= y into x = x - y
+            binary_op = BinaryExprNode(
+                left=expr,
+                operator='-',
+                right=value,
+                line=expr.line,
+                column=expr.column
+            )
+            expr = AssignmentExprNode(
+                target=expr,
+                operator='=',
+                value=binary_op,
+                line=expr.line,
+                column=expr.column
+            )
+        # Compound assignment: *=
+        elif self.check(TokenType.STAR_EQUALS):
+            self.advance()  # consume '*='
+            value = self.parse_assignment()
+
+            if not isinstance(expr, (IdentifierExprNode, BinaryExprNode)):
+                raise ParserError(f"Invalid assignment target: {expr.__class__.__name__}",
+                                  expr.line, expr.column)
+
+            # Transform x *= y into x = x * y
+            binary_op = BinaryExprNode(
+                left=expr,
+                operator='*',
+                right=value,
+                line=expr.line,
+                column=expr.column
+            )
+            expr = AssignmentExprNode(
+                target=expr,
+                operator='=',
+                value=binary_op,
+                line=expr.line,
+                column=expr.column
+            )
+        # Compound assignment: /=
+        elif self.check(TokenType.SLASH_EQUALS):
+            self.advance()  # consume '/='
+            value = self.parse_assignment()
+
+            if not isinstance(expr, (IdentifierExprNode, BinaryExprNode)):
+                raise ParserError(f"Invalid assignment target: {expr.__class__.__name__}",
+                                  expr.line, expr.column)
+
+            # Transform x /= y into x = x / y
+            binary_op = BinaryExprNode(
+                left=expr,
+                operator='/',
+                right=value,
+                line=expr.line,
+                column=expr.column
+            )
+            expr = AssignmentExprNode(
+                target=expr,
+                operator='=',
+                value=binary_op,
+                line=expr.line,
+                column=expr.column
+            )
 
         return expr
-
     def parse_logical_or(self) -> ExpressionNode:
         """Parse logical OR (|| or 'or')"""
         expr = self.parse_logical_and()

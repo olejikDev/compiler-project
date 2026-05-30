@@ -123,28 +123,6 @@ class Lexer:
     def is_at_end(self):
         return self.current >= len(self.source)
 
-    def scan_token(self):
-        char = self.advance()
-
-        try:
-            match char:
-                case ' ' | '\t' | '\r':
-                    pass
-                case '\n':
-                    self.line += 1
-                    self.column = 1
-                case '/':
-                    self.handle_slash()  # ← ДОЛЖНО БЫТЬ ИМЕННО ТАК
-                case '"':
-                    self.string()
-                case _ if char.isdigit():
-                    self.number()
-                case _ if char.isalpha() or char == '_':
-                    self.identifier()
-                case _:
-                    self.operator_or_delimiter(char)
-        except LexerError as e:
-            print(e)
 
     def advance(self):
         if self.is_at_end():
@@ -256,6 +234,11 @@ class Lexer:
                     self.add_token(TokenType.STAR_EQUALS)
                 else:
                     self.add_token(TokenType.STAR)
+            case '/':
+                if self.match('='):
+                    self.add_token(TokenType.SLASH_EQUALS)  # <-- ЭТО ВАЖНО
+                else:
+                    self.add_token(TokenType.SLASH)
             case '%':
                 self.add_token(TokenType.PERCENT)
             case '!':
@@ -308,7 +291,6 @@ class Lexer:
                 self.add_token(TokenType.DOT)
             case _:
                 raise LexerError(f"Unexpected character: '{char}'", self.line, self.column - 1)
-
     def add_token(self, token_type, literal=None):
         lexeme = self.source[self.start:self.current]
         self.tokens.append(Token(token_type, lexeme, self.start_line, self.start_col, literal))

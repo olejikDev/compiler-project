@@ -1,0 +1,25 @@
+# IR Program
+
+function factorial: int (int n)
+{
+  entry_1:
+    move n1 = n  # param n
+    cmp_le t2 = n1, 1
+    jump_if t2, then_2  # if condition true
+  else_3:
+    jump endif_4  # jump to end
+  then_2:
+    return 1  # return value
+  endif_4:
+    call t3 = "factorial"  # call factorial
+    mul t4 = n1, t3
+    return t4  # return value
+}
+
+function main: int ()
+{
+  entry_1:
+    call t2 = "factorial"  # call factorial
+    move result1 = t2  # init result
+    return result1  # return value
+}

@@ -1,0 +1,11 @@
+function main:
+  entry:
+    MOVE t1 10  # init x
+    CMP_GT t2 t1 5  # (x > 5)
+    JUMP_IF_NOT t2 L2  # if condition false
+  L1:
+    JUMP L2
+  L3:
+    JUMP L2
+  L2:
+    RETURN  # implicit return

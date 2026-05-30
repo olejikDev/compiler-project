@@ -1,0 +1,5 @@
+function main:
+  entry:
+    ADD t2 10 20  # (10 + 20)
+    MOVE t1 t2  # init x
+    RETURN t1  # return x;

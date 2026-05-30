@@ -1,0 +1,7 @@
+function main:
+  entry:
+    MOVE t1 5  # init a
+    MOVE t2 3  # init b
+    MUL t4 t1 t2  # (a * b)
+    MOVE t3 t4  # init c
+    RETURN t3  # return c;

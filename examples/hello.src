@@ -1,4 +1,10 @@
 fn main() -> int {
-    int result = 42;
-    return result;
+    int counter = 42;
+    float pi = 3.14;
+    bool flag = true;
+
+    if (counter > 10) {
+        return counter;
+    }
+    return 0;
 }

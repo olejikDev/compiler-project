@@ -1,0 +1,17 @@
+function factorial:
+  entry:
+    MOVE t1 n  # param n
+    CMP_LE t2 t1 1  # (n <= 1)
+    JUMP_IF_NOT t2 L2  # if condition false
+  L1:
+    JUMP L2
+  L3:
+    JUMP L2
+  L2:
+    RETURN  # implicit return
+
+function main:
+  entry:
+    PARAM 0 5  # arg0
+    CALL t1 "factorial" 5  # factorial(5)
+    RETURN t1  # return factorial(5);

@@ -1,0 +1,14 @@
+function add:
+  entry:
+    MOVE t1 a  # param a
+    MOVE t2 b  # param b
+    ADD t3 t1 t2  # (a + b)
+    RETURN t3  # return (a + b);
+
+function main:
+  entry:
+    PARAM 0 5  # arg0
+    PARAM 1 3  # arg1
+    CALL t2 "add" 5, 3  # add(5, 3)
+    MOVE t1 t2  # init x
+    RETURN t1  # return x;
