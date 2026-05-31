@@ -1,0 +1,27 @@
+fn main() -> int {
+    int sum = 0;
+
+    // Test if-else
+    int x = 10;
+    int y = 0;
+    if (x > 5) {
+        y = 100;
+    } else {
+        y = 200;
+    }
+
+    // Test while loop
+    int i = 0;
+    while (i < 5) {
+        sum = sum + i;
+        i = i + 1;
+    }
+
+    // Test for loop
+    int j = 0;
+    for (j = 0; j < 3; j = j + 1) {
+        sum = sum + j;
+    }
+
+    return sum + y;
+}

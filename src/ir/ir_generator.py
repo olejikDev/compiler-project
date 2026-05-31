@@ -1,6 +1,7 @@
 # src/ir/ir_generator.py
 """IR Generator — traverses decorated AST and produces IR.
 Sprint 4 requirements: GEN-1, GEN-2, GEN-3, GEN-4, GEN-5
+Sprint 6 requirements: LOOP-2 (for loop)
 """
 
 from typing import Optional, List
@@ -129,7 +130,7 @@ class IRGenerator:
                 self._emit(Opcode.MOVE, temp, [init_val], comment=f"init {node.name}")
 
     def _visit_IfStmtNode(self, node) -> None:
-        """IfStmtNode — if-else statement (FIXED - no extra JUMP)."""
+        """IfStmtNode — if-else statement."""
         cond = self._visit(node.condition)
         if cond is None:
             return
@@ -168,7 +169,7 @@ class IRGenerator:
         self.current_block = end_block
 
     def _visit_WhileStmtNode(self, node) -> None:
-        """WhileStmtNode — while loop (FIXED - no extra JUMP after JUMP_IF)."""
+        """WhileStmtNode — while loop."""
         # Save old targets
         old_break = self.loop_break_targets
         old_continue = self.loop_continue_targets
@@ -215,7 +216,8 @@ class IRGenerator:
         self.loop_continue_targets = old_continue
 
     def _visit_ForStmtNode(self, node) -> None:
-        """ForStmtNode — for loop."""
+        """ForStmtNode — for loop (FIXED)."""
+        # Save old targets
         old_break = self.loop_break_targets
         old_continue = self.loop_continue_targets
 
@@ -234,19 +236,25 @@ class IRGenerator:
         # Jump to condition
         self._emit(Opcode.JUMP, args=[cond_label], comment="jump to condition")
 
-        # Condition block
+        # Create condition block
         cond_block = BasicBlock(cond_label, self.current_function)
         self.current_function.add_block(cond_block)
         self.current_block = cond_block
 
+        # Evaluate condition
         if node.condition:
             cond = self._visit(node.condition)
             self._emit(Opcode.JUMP_IF, args=[cond, body_label], comment="condition true")
+            # Fall through to end if condition false - no extra JUMP needed
         else:
+            # No condition -> always true
             self._emit(Opcode.JUMP, args=[body_label], comment="no condition")
-        self._emit(Opcode.JUMP, args=[end_label], comment="condition false")
 
-        # Body block
+        # Create end block (fall through from condition)
+        end_block = BasicBlock(end_label, self.current_function)
+        self.current_function.add_block(end_block)
+
+        # Create body block
         body_block = BasicBlock(body_label, self.current_function)
         self.current_function.add_block(body_block)
         self.current_block = body_block
@@ -255,7 +263,7 @@ class IRGenerator:
         if not self.current_block.is_terminated():
             self._emit(Opcode.JUMP, args=[step_label], comment="jump to step")
 
-        # Step block
+        # Create step block
         step_block = BasicBlock(step_label, self.current_function)
         self.current_function.add_block(step_block)
         self.current_block = step_block
@@ -264,11 +272,10 @@ class IRGenerator:
             self._visit(node.update)
         self._emit(Opcode.JUMP, args=[cond_label], comment="loop back")
 
-        # End block
-        end_block = BasicBlock(end_label, self.current_function)
-        self.current_function.add_block(end_block)
+        # Switch to end block
         self.current_block = end_block
 
+        # Restore targets
         self.loop_break_targets = old_break
         self.loop_continue_targets = old_continue
 
